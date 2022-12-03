@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 
 public class PCompare {
     public static void main(String[] args) throws IOException{
-        InputStream input1 = new FileInputStream("C:\\Users\\mq2022\\Desktop\\I.out");
-        InputStream input2 = new FileInputStream("C:\\Users\\mq2022\\Desktop\\mqI.out");
+        InputStream input1 = new FileInputStream("C:\\Users\\mq2022\\Desktop\\t1.txt");
+        InputStream input2 = new FileInputStream("C:\\Users\\mq2022\\Desktop\\t2.txt");
         BufferedReader br1 = new BufferedReader(new InputStreamReader(input1));
         BufferedReader br2 = new BufferedReader(new InputStreamReader(input2));
         int tcnt = 0;
