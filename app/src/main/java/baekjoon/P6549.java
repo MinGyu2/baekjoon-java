@@ -8,7 +8,50 @@ import java.util.StringTokenizer;
 public class P6549 {
     static long maxArea = 0; 
     public static void main(String[] args) throws IOException{
-        solution();
+        solution3();
+    }
+    static void solution3() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = null;
+        StringTokenizer st;
+
+        long[] arr = new long[100001];
+        int[] indexStack = new int[100001];
+
+        int arrI = 0;
+        indexStack[0] = -1;
+        int stackI = 1;
+        long max = 0;
+        
+        StringBuilder sb = new StringBuilder();
+        while((str = br.readLine()).compareTo("0") != 0){
+            st = new StringTokenizer(str);
+            arrI = 0;
+            stackI = 1;
+            max = 0;
+            st.nextToken();
+            while(st.hasMoreTokens()){
+                arr[arrI] = Integer.parseInt(st.nextToken());
+                long s = indexStack[stackI - 1];
+                // 현재 입력보다 작은 높이가 나올 때 까지 스택에서 뻐낸다.
+                while(stackI > 1 && arr[indexStack[stackI-1]] > arr[arrI]){
+                    long e = indexStack[stackI - 2];
+                    max = Math.max(max, (s-e)*arr[indexStack[stackI-1]]);
+                    stackI--;
+                }
+                indexStack[stackI++] = arrI;
+                arrI++;
+            }
+            // 현재 stack 비우기
+            long s = indexStack[stackI - 1];
+            while(stackI > 1){
+                long e = indexStack[stackI - 2];
+                max = Math.max(max, (s-e)*arr[indexStack[stackI-1]]);
+                stackI--;
+            }
+            sb.append(max).append('\n');
+        }
+        System.out.print(sb);
     }
     static void solution() throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
