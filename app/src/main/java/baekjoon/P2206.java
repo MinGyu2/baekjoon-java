@@ -3,7 +3,6 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -30,8 +29,9 @@ public class P2206 {
         // test
         // map[0][1] = 0;
         bfs(visited,wall , map, n, m);
-        System.out.println(Arrays.toString(visited));
-        System.out.println();
+        // System.out.println(Arrays.toString(visited));
+        int ans = visited[n*m-1];
+        System.out.println((ans == 0)?-1:ans);
     }
     // visitedNum visitedNum 구분 안하고 방문 했는지 확인하기 위한것
     static void bfs(int[] visited,int[] wall, int[][] map, final int N, final int M){
@@ -54,13 +54,37 @@ public class P2206 {
                 n +=gN[i];
                 m +=gM[i];
                 int temp = n*M +m;
-                if(n < 0 || n > N-1 || m < 0 || m > M-1 || map[n][m] == 1 || visited[temp] != 0){ // 벽일 때도 무시
+                if(n < 0 || n > N-1 || m < 0 || m > M-1 || (map[n][m] == 1 && w == 1)){//visited[temp] != 0){ // 벽일 때도 무시
                     n -=gN[i];
                     m -=gM[i];
                     continue;
                 }
-                visited[temp] = cnt;
-                queue.add(temp);
+
+                if(visited[temp] == 0){ // 아직 방문 한번도 안함
+                    if(map[n][m] == 1){
+                        // w == 0 이니까 벽 뚫을 수 있음
+                        wall[temp] = 1;
+                    }else{
+                        wall[temp] = w;
+                    }
+                    visited[temp] = cnt;
+                    queue.add(temp);
+                }else if(wall[temp] != 0 && map[n][m] != 1 && w != 1){ // 한번은 방문한 적있음
+                    // if(wall[temp] == 0){  // 옛 기록에 따르면 현재 위치 까지 오는데 벽이 하나도 없었음
+                    //     // 아무 것도 안함
+                    // }else if(map[n][m] == 1){ // 현재 위치는 벽임
+                    //     // 아무것도 안함
+                    // }else if(w == 1){ // 벽 한번은 뚫음
+                    //     //아무것도 안함
+                    // }else{ // 현재 위치 까지 오는데 벽이 없음
+                        // wall[temp] = 0;
+                        // visited[temp] = cnt;
+                        // queue.add(temp);
+                    // }
+                    wall[temp] = 0;
+                    visited[temp] = cnt;
+                    queue.add(temp);
+                }
                 n -=gN[i];
                 m -=gM[i];
             }
