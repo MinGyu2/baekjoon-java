@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class P1753 {
@@ -56,12 +53,14 @@ public class P1753 {
             visited[i] = Integer.MAX_VALUE; // 무한대(INF)!
         }
         visited[r] = 0; // 처음 시작은 0
-        Queue<Integer> queue = new LinkedList<>();
-        // PriorityQueue<Pair> pqueue = new PriorityQueue<>((Pair a, Pair b)-> a.w - b.w);
-        queue.add(r);
-        while(!queue.isEmpty()){
-            int v = queue.poll();
-            int w = visited[v]; // v 정점 까지 오는데 든 가중치
+        // Queue<Integer> queue = new LinkedList<>();
+        PriorityQueue<Pair> pqueue = new PriorityQueue<>((Pair a, Pair b)-> a.w - b.w);
+        // queue.add(r);
+        pqueue.add(new Pair(r, 0));
+        while(!pqueue.isEmpty()){
+            Pair p = pqueue.poll();
+            int v = p.v;
+            int w = p.w; // v 정점 까지 오는데 든 가중치
             var edge = g.get(v);
             for(int u:edge.keySet()){
                 int newW = w+edge.get(u); // 현재 새로 계산한 따끈따끈 한 가중치
@@ -70,7 +69,7 @@ public class P1753 {
                 if(oldW <= newW){ continue; }
                 // 새로운 가중치가 더 작음
                 visited[u] = newW;
-                queue.add(u);
+                pqueue.add(new Pair(u, newW));
             }
         }
     }
