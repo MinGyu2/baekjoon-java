@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class P2213 {
@@ -34,6 +34,21 @@ public class P2213 {
         // System.out.println(tree);
         // System.out.println(Arrays.toString(weight));
         System.out.println(independentSetSize(tree, visited, weight, 7));
+
+        // System.out.println();
+        // var nlist = new NodeList();
+        // nlist.add(1);
+        // // nlist.add(2);
+        // // nlist.add(3);
+
+        // var nlist2 = new NodeList();
+        // nlist2.add(4);
+        // nlist2.add(5);
+        // nlist2.add(6);
+        // nlist.merge(nlist2);
+
+        // System.out.println(nlist);
+        // System.out.println(nlist2);
     }
     static Pair independentSetSize(ArrayList<ArrayList<Integer>> tree, boolean[] visited, int[] weight, int root){
         visited[root] = true;
@@ -61,6 +76,50 @@ public class P2213 {
         @Override
         public String toString() {
             return String.format("(%d %d)",a,b);
+        }
+    }
+    static class Node{
+        private Node next;
+        private int value;
+        public Node(int value, Node next){
+            this.value = value;
+            this.next = next;
+        }
+        public void setNext(Node next) {
+            this.next = next;
+        }
+        @Override
+        public String toString() {
+            return String.format("%d %s",value,next);
+        }
+    }
+    static class NodeList{
+        Node first = null;
+        Node end = null;
+        public NodeList(){}
+        public void add(int v){
+            Node n = new Node(v, null);
+            if(end != null){
+                end.setNext(n);
+            }
+            end = n;
+            if(first == null){
+                first = n;
+            }
+        }
+        public void merge(NodeList nodeList){
+            if(this.end != null){
+                this.end.next = nodeList.first;
+            }
+            this.end = nodeList.end;
+
+            if(this.first == null){
+                this.first = nodeList.first;
+            }
+        }
+        @Override
+        public String toString() {
+            return String.format("(%s)",first);
         }
     }
 }
